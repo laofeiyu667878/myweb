@@ -1,136 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<library>
-    <!-- 计算机科学类 -->
-    <book>
-        <title>JavaScript权威指南</title>
-        <author>David Flanagan</author>
-        <year>2023</year>
-        <category>计算机科学</category>
-    </book>
-    <book>
-        <title>Python编程：从入门到实践</title>
-        <author>Eric Matthes</author>
-        <year>2022</year>
-        <category>计算机科学</category>
-    </book>
-    <book>
-        <title>算法导论</title>
-        <author>Thomas H. Cormen</author>
-        <year>2021</year>
-        <category>计算机科学</category>
-    </book>
-    <book>
-        <title>深入理解计算机系统</title>
-        <author>Randal E. Bryant</author>
-        <year>2023</year>
-        <category>计算机科学</category>
-    </book>
-    <book>
-        <title>机器学习实战</title>
-        <author>Peter Harrington</author>
-        <year>2022</year>
-        <category>计算机科学</category>
-    </book>
-
-    <!-- 文学类 -->
-    <book>
-        <title>百年孤独</title>
-        <author>加西亚·马尔克斯</author>
-        <year>2021</year>
-        <category>文学</category>
-    </book>
-    <book>
-        <title>活着</title>
-        <author>余华</author>
-        <year>2023</year>
-        <category>文学</category>
-    </book>
-    <book>
-        <title>1984</title>
-        <author>George Orwell</author>
-        <year>2022</year>
-        <category>文学</category>
-    </book>
-    <book>
-        <title>追风筝的人</title>
-        <author>卡勒德·胡赛尼</author>
-        <year>2021</year>
-        <category>文学</category>
-    </book>
-    <book>
-        <title>小王子</title>
-        <author>安托万·德·圣-埃克苏佩里</author>
-        <year>2023</year>
-        <category>文学</category>
-    </book>
-
-    <!-- 历史类 -->
-    <book>
-        <title>人类简史</title>
-        <author>尤瓦尔·赫拉利</author>
-        <year>2022</year>
-        <category>历史</category>
-    </book>
-    <book>
-        <title>明朝那些事儿</title>
-        <author>当年明月</author>
-        <year>2021</year>
-        <category>历史</category>
-    </book>
-    <book>
-        <title>枪炮、病菌与钢铁</title>
-        <author>贾雷德·戴蒙德</author>
-        <year>2023</year>
-        <category>历史</category>
-    </book>
-
-    <!-- 经济类 -->
-    <book>
-        <title>经济学原理</title>
-        <author>N. Gregory Mankiw</author>
-        <year>2022</year>
-        <category>经济</category>
-    </book>
-    <book>
-        <title>穷查理宝典</title>
-        <author>查理·芒格</author>
-        <year>2021</year>
-        <category>经济</category>
-    </book>
-
-    <!-- 心理学 -->
-    <book>
-        <title>思考，快与慢</title>
-        <author>丹尼尔·卡尼曼</author>
-        <year>2023</year>
-        <category>心理学</category>
-    </book>
-    <book>
-        <title>被讨厌的勇气</title>
-        <author>岸见一郎</author>
-        <year>2022</year>
-        <category>心理学</category>
-    </book>
-
-    <!-- 科学 -->
-    <book>
-        <title>时间简史</title>
-        <author>史蒂芬·霍金</author>
-        <year>2021</year>
-        <category>科学</category>
-    </book>
-    <book>
-        <title>物种起源</title>
-        <author>查尔斯·达尔文</author>
-        <year>2023</year>
-        <category>科学</category>
-    </book>
-
-    <!-- 哲学 -->
-    <book>
-        <title>中国哲学简史</title>
-        <author>冯友兰</author>
-        <year>2022</year>
-        <category>哲学</category>
-    </book>
-</library>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- bookstore example -->
+<bookstore>
+<book category="children">
+<title lang="en">Harry Potter</title>
+<author>J K. Rowling</author>
+<year>2005</year>
+<price>29.99</price>
+</book>
+<book category="cooking">
+<title lang="en">Everyday Italian</title>
+<author>Giada De Laurentiis</author>
+<year>2005</year>
+<price>30.00</price>
+</book>
+<book category="web">
+<title lang="en">Learning XML</title>
+<author>Erik T. Ray</author>
+<year>2003</year>
+<price>39.95</price>
+</book>
+<book category="web">
+<title lang="en">XQuery Kick Start</title>
+<author>James McGovern</author>
+<author>Per Bothner</author>
+<author>Kurt Cagle</author>
+<author>James Linn</author>
+<author>Vaidyanathan Nagarajan</author>
+<year>2003</year>
+<price>49.99</price>
+</book>
+</bookstore>

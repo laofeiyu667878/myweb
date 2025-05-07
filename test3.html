@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="Author" content="程志鹏">
-    <title>个人介绍</title>
-    <link rel="stylesheet" href="./css/index.css" />
+    <title>图书管理系统</title>
     <style>
-        /* 拖动区域样式 */
+        /* 拖动矩形样式 */
         #dragContainer {
             width: 600px;
             height: 400px;
@@ -26,7 +23,7 @@
             user-select: none;
         }
 
-        /* 书目表格样式 */
+        /* 表格样式 */
         .table-section {
             margin: 40px 20px;
             padding: 20px;
@@ -35,7 +32,7 @@
         
         table {
             border-collapse: collapse;
-            width: 80%;
+            width: 100%;
             margin-top: 15px;
         }
         
@@ -48,7 +45,6 @@
         th {
             background-color: #4CAF50;
             color: white;
-            font-size: 14px;
         }
         
         select {
@@ -60,46 +56,31 @@
     </style>
 </head>
 <body>
-    <!-- 拖动模块 -->
-    <header class="header">
-        <div class="nav-box">
-            <span>个人介绍</span>
-            <ul class="nav">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="project.html">爱好展示</a></li>
-                <li><a href="concat.html">联系我</a></li>
-                <li><a href="test2.html">功能测试1</a></li>
-                <li><a href="test3.html" class="on">功能测试2</a></li>
-            </ul>
-        </div>
-    </header>
-    <!--导航end-->
-    <!--banner-->
-    <div class="banner">
-        欢迎来到我的个人主页
-    </div>
+    <!-- 可拖动矩形 -->
     <h2>可拖动矩形</h2>
     <div id="dragContainer">
         <div id="dragBox"></div>
     </div>
 
-    <!-- 书目模块 -->
+    <!-- 图书管理系统 -->
     <div class="table-section">
         <h2>图书查询系统</h2>
-        <select id="bookFilter" onchange="filterBooks()">
-            <option value="all">显示全部</option>
-            <option value="2023">2023年出版</option>
-            <option value="2022">2022年出版</option>
-            <option value="2021">2021年出版</option>
+        <select id="categoryFilter" onchange="filterBooks()">
+            <option value="all">所有分类</option>
+            <option value="children">儿童书籍</option>
+            <option value="cooking">烹饪美食</option>
+            <option value="web">网络技术</option>
         </select>
-        
+
         <table id="bookTable">
             <thead>
                 <tr>
                     <th>书名</th>
                     <th>作者</th>
-                    <th>年份</th>
                     <th>分类</th>
+                    <th>语言</th>
+                    <th>年份</th>
+                    <th>价格</th>
                 </tr>
             </thead>
             <tbody id="bookData"></tbody>
@@ -107,7 +88,7 @@
     </div>
 
     <script>
-        // 拖动功能脚本
+        // 可拖动矩形功能
         (function() {
             const dragBox = document.getElementById('dragBox');
             let isDragging = false;
@@ -150,7 +131,7 @@
             }
         })();
 
-        // 书目功能脚本
+        // 图书管理功能
         (function() {
             function loadXML() {
                 const xhr = new XMLHttpRequest();
@@ -168,35 +149,39 @@
                 const tbody = document.getElementById("bookData");
                 
                 for (let i = 0; i < books.length; i++) {
+                    const book = books[i];
                     const row = document.createElement("tr");
+                    
+                    // 获取多个作者
+                    const authors = Array.from(book.getElementsByTagName("author"))
+                                      .map(a => a.textContent)
+                                      .join(", ");
+
                     row.innerHTML = `
-                        <td>${books[i].getElementsByTagName("title")[0].textContent}</td>
-                        <td>${books[i].getElementsByTagName("author")[0].textContent}</td>
-                        <td>${books[i].getElementsByTagName("year")[0].textContent}</td>
-                        <td>${books[i].getElementsByTagName("category")[0].textContent}</td>
+                        <td>${book.getElementsByTagName("title")[0].textContent}</td>
+                        <td>${authors}</td>
+                        <td>${book.getAttribute("category")}</td>
+                        <td>${book.getElementsByTagName("title")[0].getAttribute("lang")}</td>
+                        <td>${book.getElementsByTagName("year")[0].textContent}</td>
+                        <td>$${book.getElementsByTagName("price")[0].textContent}</td>
                     `;
                     tbody.appendChild(row);
                 }
             }
 
             window.filterBooks = function() {
-                const filter = document.getElementById("bookFilter").value;
+                const filter = document.getElementById("categoryFilter").value;
                 const rows = document.getElementById("bookData").rows;
                 
-                for (let i = 0; i < rows.length; i++) {
-                    const year = rows[i].cells[2].textContent;
-                    rows[i].style.display = 
-                        (filter === "all" || year === filter) ? "" : "none";
+                for (let row of rows) {
+                    const category = row.cells[2].textContent;
+                    row.style.display = 
+                        (filter === "all" || category === filter) ? "" : "none";
                 }
             }
 
-            window.onload = function() {
-                loadXML();
-            };
+            window.onload = loadXML;
         })();
     </script>
-     <div class="foot-box">
-        By © 2025.Elysia.
-    </div>
 </body>
 </html>
