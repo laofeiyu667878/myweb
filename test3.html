@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="程志鹏">
+    <title>个人介绍</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <style>
+        /* 拖动区域样式 */
+        #dragContainer {
+            width: 600px;
+            height: 400px;
+            border: 2px solid #333;
+            position: relative;
+            margin: 20px;
+        }
+        
+        #dragBox {
+            width: 80px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            cursor: move;
+            user-select: none;
+        }
+
+        /* 书目表格样式 */
+        .table-section {
+            margin: 40px 20px;
+            padding: 20px;
+            border-top: 3px solid #4CAF50;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+        }
+        
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 拖动模块 -->
+    <header class="header">
+        <div class="nav-box">
+            <span>个人介绍</span>
+            <ul class="nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="project.html">爱好展示</a></li>
+                <li><a href="concat.html">联系我</a></li>
+                <li><a href="test2.html">功能测试1</a></li>
+                <li><a href="test3.html" class="on">功能测试2</a></li>
+            </ul>
+        </div>
+    </header>
+    <!--导航end-->
+    <!--banner-->
+    <div class="banner">
+        欢迎来到我的个人主页
+    </div>
+    <h2>可拖动矩形</h2>
+    <div id="dragContainer">
+        <div id="dragBox"></div>
+    </div>
+
+    <!-- 书目模块 -->
+    <div class="table-section">
+        <h2>图书查询系统</h2>
+        <select id="bookFilter" onchange="filterBooks()">
+            <option value="all">显示全部</option>
+            <option value="2023">2023年出版</option>
+            <option value="2022">2022年出版</option>
+            <option value="2021">2021年出版</option>
+        </select>
+        
+        <table id="bookTable">
+            <thead>
+                <tr>
+                    <th>书名</th>
+                    <th>作者</th>
+                    <th>年份</th>
+                    <th>分类</th>
+                </tr>
+            </thead>
+            <tbody id="bookData"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // 拖动功能脚本
+        (function() {
+            const dragBox = document.getElementById('dragBox');
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            dragBox.addEventListener('mousedown', startDrag);
+
+            function startDrag(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = dragBox.offsetLeft;
+                initialY = dragBox.offsetTop;
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                let newX = initialX + dx;
+                let newY = initialY + dy;
+                
+                // 边界限制
+                newX = Math.max(0, Math.min(newX, 600 - dragBox.offsetWidth));
+                newY = Math.max(0, Math.min(newY, 400 - dragBox.offsetHeight));
+                
+                dragBox.style.left = newX + 'px';
+                dragBox.style.top = newY + 'px';
+            }
+
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        })();
+
+        // 书目功能脚本
+        (function() {
+            function loadXML() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "book.xml", true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        parseXML(xhr.responseXML);
+                    }
+                };
+                xhr.send();
+            }
+
+            function parseXML(xml) {
+                const books = xml.getElementsByTagName("book");
+                const tbody = document.getElementById("bookData");
+                
+                for (let i = 0; i < books.length; i++) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${books[i].getElementsByTagName("title")[0].textContent}</td>
+                        <td>${books[i].getElementsByTagName("author")[0].textContent}</td>
+                        <td>${books[i].getElementsByTagName("year")[0].textContent}</td>
+                        <td>${books[i].getElementsByTagName("category")[0].textContent}</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            }
+
+            window.filterBooks = function() {
+                const filter = document.getElementById("bookFilter").value;
+                const rows = document.getElementById("bookData").rows;
+                
+                for (let i = 0; i < rows.length; i++) {
+                    const year = rows[i].cells[2].textContent;
+                    rows[i].style.display = 
+                        (filter === "all" || year === filter) ? "" : "none";
+                }
+            }
+
+            window.onload = function() {
+                loadXML();
+            };
+        })();
+    </script>
+     <div class="foot-box">
+        By © 2025.Elysia.
+    </div>
+</body>
+</html>
