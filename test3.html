@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="程志鹏">
+    <title>个人介绍</title>
+    <link rel="stylesheet" href="./css/index.css" />
     <title>图书管理系统</title>
     <style>
         /* 拖动矩形样式 */
@@ -56,6 +60,23 @@
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="nav-box">
+            <span>个人介绍</span>
+            <ul class="nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="project.html">爱好展示</a></li>
+                <li><a href="concat.html">联系我</a></li>
+                <li><a href="test2.html">功能测试1</a></li>
+                <li><a href="test3.html" class="on">功能测试2</a></li>
+            </ul>
+        </div>
+    </header>
+    <!--导航end-->
+    <!--banner-->
+    <div class="banner">
+        欢迎来到我的个人主页
+    </div>
     <!-- 可拖动矩形 -->
     <h2>可拖动矩形</h2>
     <div id="dragContainer">
@@ -91,45 +112,56 @@
         // 可拖动矩形功能
         (function() {
             const dragBox = document.getElementById('dragBox');
+            // 标记是否正在拖动
             let isDragging = false;
-            let startX, startY, initialX, initialY;
+            // 鼠标按下时的初始坐标
+            let startX, startY;
+            // 拖动元素的初始位置
+            let initialX, initialY;
 
+            // 给拖动元素添加鼠标按下事件监听器
             dragBox.addEventListener('mousedown', startDrag);
 
             function startDrag(e) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                initialX = dragBox.offsetLeft;
-                initialY = dragBox.offsetTop;
+                isDragging = true; // 标记为正在拖动
+                startX = e.clientX; // 记录鼠标按下时的X坐标
+                startY = e.clientY; // 记录鼠标按下时的Y坐标
+                initialX = dragBox.offsetLeft; // 记录拖动元素的初始X位置
+                initialY = dragBox.offsetTop; // 记录拖动元素的初始Y位置
                 
                 document.addEventListener('mousemove', drag);
                 document.addEventListener('mouseup', stopDrag);
             }
 
             function drag(e) {
-                if (!isDragging) return;
+                if (!isDragging) return; // 如果没有正在拖动，直接返回
                 
+                // 计算鼠标移动的距离
                 const dx = e.clientX - startX;
                 const dy = e.clientY - startY;
                 
+                // 计算拖动元素的新位置
                 let newX = initialX + dx;
                 let newY = initialY + dy;
                 
-                // 边界限制
+                // 边界限制，确保拖动元素不超出容器范围
                 newX = Math.max(0, Math.min(newX, 600 - dragBox.offsetWidth));
                 newY = Math.max(0, Math.min(newY, 400 - dragBox.offsetHeight));
                 
+                // 更新拖动元素的位置
                 dragBox.style.left = newX + 'px';
                 dragBox.style.top = newY + 'px';
             }
 
+            // 鼠标松开时触发的函数
             function stopDrag() {
-                isDragging = false;
+                isDragging = false; // 标记为停止拖动
+                // 移除鼠标移动和鼠标松开事件监听器
                 document.removeEventListener('mousemove', drag);
                 document.removeEventListener('mouseup', stopDrag);
             }
         })();
+
 
         // 图书管理功能
         (function() {
@@ -147,7 +179,7 @@
             function parseXML(xml) {
                 const books = xml.getElementsByTagName("book");
                 const tbody = document.getElementById("bookData");
-                
+                //遍历所有图书
                 for (let i = 0; i < books.length; i++) {
                     const book = books[i];
                     const row = document.createElement("tr");
@@ -156,7 +188,8 @@
                     const authors = Array.from(book.getElementsByTagName("author"))
                                       .map(a => a.textContent)
                                       .join(", ");
-
+                    
+                    //设置表格行的内容
                     row.innerHTML = `
                         <td>${book.getElementsByTagName("title")[0].textContent}</td>
                         <td>${authors}</td>
@@ -168,7 +201,7 @@
                     tbody.appendChild(row);
                 }
             }
-
+            //过滤图书的函数
             window.filterBooks = function() {
                 const filter = document.getElementById("categoryFilter").value;
                 const rows = document.getElementById("bookData").rows;
